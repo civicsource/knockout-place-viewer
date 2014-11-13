@@ -1,10 +1,13 @@
 ﻿define(["knockout", "jquery", "app/urls"],
 function (ko, $, urls) {
 	ko.bindingHandlers.placeViewer = {
+		init: function (el, valueAccessor, allBindings) {
+			return { controlsDescendantBindings: true };
+		},
 		update: function (el, valueAccessor, allBindings) {
-			el.innerHtml = "<span>loading...</span>";
+			el.innerHTML = "<span>loading...</span>";
 			var locationName = "";
-			var fips = ko.unwrapObservable(valueAccessor) || "";
+			var fips = ko.utils.unwrapObservable(valueAccessor()) || "";
 
 			$.ajax(urls.fips + "places/" + fips, {
 				type: "GET",
@@ -14,7 +17,7 @@ function (ko, $, urls) {
 			}).always(function () {
 				if (!locationName) locationName = "Unknown";
 
-				el.innerHtml = "<span>" + locationName + "</span>";
+				el.innerHTML = "<span>" + locationName + "</span>";
 			});
 		}
 	};
