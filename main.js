@@ -1,5 +1,4 @@
-﻿define(["knockout", "jquery", "app/urls"],
-function (ko, $, urls) {
+﻿define(["knockout", "jquery", "app/urls"], function (ko, $, urls) {
 	ko.bindingHandlers.placeViewer = {
 		init: function (el, valueAccessor, allBindings) {
 			return { controlsDescendantBindings: true };
@@ -21,5 +20,4 @@ function (ko, $, urls) {
 			});
 		}
 	};
-	ko.virtualElements.allowedBindings.placeViewer = true;
 });
