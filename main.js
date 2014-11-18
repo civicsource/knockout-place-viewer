@@ -1,23 +1,27 @@
 ﻿define(["knockout", "jquery", "app/urls"], function (ko, $, urls) {
 	ko.bindingHandlers.placeViewer = {
-		init: function (el, valueAccessor, allBindings) {
-			return { controlsDescendantBindings: true };
-		},
 		update: function (el, valueAccessor, allBindings) {
-			el.innerHTML = "<span>loading...</span>";
-			var locationName = "";
-			var fips = ko.utils.unwrapObservable(valueAccessor()) || "";
+			var place = ko.utils.unwrapObservable(valueAccessor());
 
-			$.ajax(urls.fips + "places/" + fips, {
-				type: "GET",
-				contentType: "application/json",
-			}).then(function (data) {
-				locationName = data.fullName;
-			}).always(function () {
-				if (!locationName) locationName = "Unknown";
+			if (!place) {
+				el.innerHTML = "No place provided";
+			} else {
+				if (place.fullName) {
+					el.innerHTML = place.fullName;
+				} else {
+					$.ajax(urls.fips + "places/" + place.fips, {
+						type: "GET",
+						contentType: "application/json",
+					}).then(function (data) {
+						var obs = valueAccessor();
+						if (ko.isObservable(obs)) {
+							obs(data);
+						}
 
-				el.innerHTML = "<span>" + locationName + "</span>";
-			});
+						el.innerHTML = data.fullName;
+					});
+				}
+			}
 		}
 	};
 });
