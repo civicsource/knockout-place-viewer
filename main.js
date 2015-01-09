@@ -9,7 +9,7 @@
 				if (place.fullName) {
 					el.innerHTML = place.fullName;
 				} else {
-					$.ajax(urls.fips + "places/" + place.fips, {
+					$.ajax(urls.fips + "places/" + place.fips + "/", {
 						type: "GET",
 						contentType: "application/json",
 					}).then(function (data) {
