@@ -1,4 +1,4 @@
-﻿define(["knockout", "jquery", "app/urls"], function (ko, $, urls) {
+﻿define(["knockout", "jquery", "app/payload"], function (ko, $, payload) {
 	ko.bindingHandlers.placeViewer = {
 		update: function (el, valueAccessor, allBindings) {
 			var place = ko.utils.unwrapObservable(valueAccessor());
@@ -9,7 +9,7 @@
 				if (place.fullName) {
 					el.innerHTML = place.fullName;
 				} else {
-					$.ajax(urls.fips + "places/" + place.fips + "/", {
+					$.ajax(payload.urls.fips + "places/" + place.fips + "/", {
 						type: "GET",
 						contentType: "application/json",
 					}).then(function (data) {
